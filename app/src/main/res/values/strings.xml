@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Todo</string>
+
+    <string name="tvListeTodos">Todo list</string>
+
+    <string name="btnAdd">ADD</string>
+    <string name="btnCancel">CANCEL</string>
+
+    <string name="tvTodo">TODO</string>
+
+
+    <string name="liLowUrgency">Low Urgency</string>
+    <string name="liMediumUrgency">Medium Urgency</string>
+    <string name="liHighUrgency">High Urgency</string>
+
+
+
+
+
+
+</resources>
