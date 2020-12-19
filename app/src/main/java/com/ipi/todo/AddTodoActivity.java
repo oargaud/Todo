@@ -2,13 +2,16 @@ package com.ipi.todo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.ipi.todo.pojos.Todo;
 
@@ -47,17 +50,29 @@ public class AddTodoActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 String message = editText.getText().toString();
-                String urgency = spinner.getSelectedItem().toString();
-                Intent intent = new Intent();
-                intent.putExtra("MESSAGE",message);
+                if (message.length()<3)
+                {
 
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("TODO",new Todo(1,message,urgency));
+                    Toast toast = Toast.makeText(getApplicationContext(),"la description de la tache doit contenir au moins 3 caractères",Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.TOP,0,200);
+                    toast.show();
 
-                intent.putExtras(bundle);
+                }
+                else
+                {
+                    String urgency = spinner.getSelectedItem().toString();
+                    Intent intent = new Intent();
+                    intent.putExtra("MESSAGE",message);
 
-                setResult(RESULT_OK,intent);
-                finish();//finishing activity
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("TODO",new Todo(1,message,urgency));
+
+                    intent.putExtras(bundle);
+
+                    setResult(RESULT_OK,intent);
+                    finish();//finishing activity
+                }
+
 
             }
 
