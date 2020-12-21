@@ -2,11 +2,12 @@ package com.ipi.todo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,21 +29,26 @@ public class AddTodoActivity extends AppCompatActivity
     private EditText editText;
     private  Spinner spinner;
 
+    private String TAG = "monTag";
+
+    private List<String> urgencyList = new ArrayList<>();
+
+    private ArrayAdapter<String> spinnerArrayAdapter ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        Log.d(TAG,"onCreate() add called");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_todo);
 
-        // Get reference of widgets from XML layout
-        spinner = (Spinner) findViewById(R.id.spiUrgency);
-
+        spinner = findViewById(R.id.spiUrgency);
         editText = findViewById(R.id.tvTodoName);
-
         btnAdd = findViewById(R.id.btnAdd);
         btnCancel = findViewById(R.id.btnCancel);
 
+        initUrgencyList();
 
         btnAdd.setOnClickListener(new View.OnClickListener()
         {
@@ -60,19 +66,18 @@ public class AddTodoActivity extends AppCompatActivity
                 }
                 else
                 {
-                    String urgency = spinner.getSelectedItem().toString();
-                    Intent intent = new Intent();
-                    intent.putExtra("MESSAGE",message);
-
+                    Intent resultIntent = new Intent();
                     Bundle bundle = new Bundle();
+
+                    String urgency = spinner.getSelectedItem().toString();
+
                     bundle.putSerializable("TODO",new Todo(1,message,urgency));
 
-                    intent.putExtras(bundle);
+                    resultIntent.putExtras(bundle);
 
-                    setResult(RESULT_OK,intent);
-                    finish();//finishing activity
+                    setResult(RESULT_OK,resultIntent);
+                    finish();
                 }
-
 
             }
 
@@ -91,38 +96,34 @@ public class AddTodoActivity extends AppCompatActivity
         });
 
 
-        // Initializing a String Array
-        String[] urgency = new String[]
-        {
-            getString(R.string.liLowUrgency),
-            getString(R.string.liMediumUrgency),
-            getString(R.string.liHighUrgency)
-        };
 
-        final List<String> urgencyList = new ArrayList<>(Arrays.asList(urgency));
-
-        // Initializing an ArrayAdapter
-        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this,R.layout.spinner_item_urgency,urgencyList);
-
-        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_item_urgency);
         spinner.setAdapter(spinnerArrayAdapter);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
     }
+
+
+
+    @Override
+    public boolean onSupportNavigateUp()
+    {
+        Log.d(TAG,"onSupportNavigateUp() add called");
+
+        finish();
+
+        return true;
+    }
+
+
+    public void initUrgencyList()
+    {
+        urgencyList.add(getString(R.string.liLowUrgency));
+        urgencyList.add(getString(R.string.liMediumUrgency));
+        urgencyList.add(getString(R.string.liHighUrgency));
+
+        spinnerArrayAdapter = new ArrayAdapter<String>(this,R.layout.spinner_item_urgency,urgencyList);
+
+    }
+
 }

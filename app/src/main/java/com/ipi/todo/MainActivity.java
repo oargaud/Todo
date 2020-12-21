@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -19,20 +20,20 @@ public class MainActivity extends AppCompatActivity
 {
 
 
-    public static final String KEY_TODO = "todo";
+//    public static final String KEY_TODO = "todo";
 
 
     private TextView listeTodos;
 
     private List<Todo> todoList = new ArrayList();
 
-
-
+    private String TAG = "monTag";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        Log.d(TAG,"onCreate() main called");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onSaveInstanceState(Bundle outState)
     {
+        Log.d(TAG,"onSaveInstanceState() main called");
         super.onSaveInstanceState(outState);
 
         Bundle bundle = new Bundle();
@@ -64,9 +66,13 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
+        Log.d(TAG,"onCreateOptionsMenu() main called");
+
         getMenuInflater().inflate(R.menu.menu_main,menu);
 
         return true;
@@ -77,16 +83,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
-        // sert a effectuer des action en fonction des item selectionne dans le menu
+        Log.d(TAG,"onOptionsItemSelected() main called");
+
         switch (item.getItemId())
         {
             case R.id.addTodo:
             {
 
-                // cree l'objet intent qui permet de lancer une activity
                 Intent intent = new Intent(getApplicationContext(), AddTodoActivity.class);
 
-                // demarre la nouvelle activite
                 startActivityForResult(intent, 2);
 
                 return true;
@@ -100,12 +105,12 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    // Call Back method  to get the Message form other Activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+        Log.d(TAG,"onActivityResult() main called");
         super.onActivityResult(requestCode, resultCode, data);
-        // check if the request code is same as what is passed  here it is 2
+
         if(requestCode == 2)
         {
             if(resultCode == RESULT_OK)
@@ -120,7 +125,6 @@ public class MainActivity extends AppCompatActivity
 
             }
 
-
         }
     }
 
@@ -131,7 +135,7 @@ public class MainActivity extends AppCompatActivity
         String s = "";
         for (Todo t : todoList)
         {
-            s += "\n" + t.getName() +"   "+ t.getUrgency() + "\n";
+            s += t.getName() +"\n       niveau d'urgence : "+ t.getUrgency() + "\n";
         }
         listeTodos.setText(s);
     }
