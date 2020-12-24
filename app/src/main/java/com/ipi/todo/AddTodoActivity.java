@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.ipi.todo.DAO.TodoDAO;
 import com.ipi.todo.pojos.Todo;
 
 import java.util.ArrayList;
@@ -67,15 +68,28 @@ public class AddTodoActivity extends AppCompatActivity
                 else
                 {
                     Intent resultIntent = new Intent();
-                    Bundle bundle = new Bundle();
+//                    Bundle bundle = new Bundle();
 
                     String urgency = spinner.getSelectedItem().toString();
 
-                    bundle.putSerializable("TODO",new Todo(1,message,urgency));
+//                    bundle.putSerializable("TODO",new Todo(1,message,urgency));
 
-                    resultIntent.putExtras(bundle);
+//                    resultIntent.putExtras(bundle);
 
                     setResult(RESULT_OK,resultIntent);
+
+
+                    TodoDAO todoDAO = new TodoDAO(getApplicationContext());
+                    Todo todo = new Todo();
+                    todo.setName(message);
+                    todo.setUrgency(urgency);
+                    todoDAO.add(todo);
+
+
+
+
+
+
                     finish();
                 }
 
@@ -108,7 +122,7 @@ public class AddTodoActivity extends AppCompatActivity
     @Override
     public boolean onSupportNavigateUp()
     {
-        Log.d(TAG,"onSupportNavigateUp() add called");
+        Log.d(TAG,"onSupportNavigateUp () add called");
 
         finish();
 
