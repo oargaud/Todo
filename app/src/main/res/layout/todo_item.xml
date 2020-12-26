@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/tvName"
-        android:layout_width="wrap_content"
+        android:layout_width="60pt"
         android:layout_height="wrap_content"
         android:layout_weight="6"
         android:padding="1dp"
@@ -19,7 +19,7 @@
 
     <TextView
         android:id="@+id/tvUrgency"
-        android:layout_width="wrap_content"
+        android:layout_width="30pt"
         android:layout_height="wrap_content"
         android:layout_weight="3"
         android:padding="1dp"
@@ -28,7 +28,7 @@
 
     <Button
         android:id="@+id/btnDel"
-        android:layout_width="wrap_content"
+        android:layout_width="10pt"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         />

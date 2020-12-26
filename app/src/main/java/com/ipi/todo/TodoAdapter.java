@@ -65,6 +65,9 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
         final Integer test = todo.getId();
 //        final Context context = getApplicationContext();
         holder.btnDelete.setText("DEL");
+
+
+
         holder.btnDelete.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -72,8 +75,10 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
             {
                 Log.d("bouton del","id "+ test);
 
-//                TodoDAO todoDAO = new TodoDAO(context);
-//                todoDAO.delete(test);
+//                MainActivity.deleteTodo(test);
+                TodoDAO todoDAO = new TodoDAO(v.getContext());
+                todoDAO.delete(test);
+
 
 
 

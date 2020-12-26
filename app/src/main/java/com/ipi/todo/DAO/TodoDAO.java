@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.ipi.todo.MainActivity;
 import com.ipi.todo.base.TodoDBHelper;
 import com.ipi.todo.pojos.Todo;
 
@@ -108,14 +109,18 @@ public class TodoDAO extends DAO
         Integer id = todo.getId();
 
         db.execSQL(" DELETE FROM " + TodoDBHelper.TODO_TABLE_NAME +
-                " WHERE " + TodoDBHelper.TODO_KEY_COLUMN_INDEX + " = "+ id );
+                " WHERE " + TodoDBHelper.TODO_KEY + " = "+ id );
 
     }
 
     public void delete(Integer id)
     {
+        open();
+
         db.execSQL(" DELETE FROM " + TodoDBHelper.TODO_TABLE_NAME +
-                " WHERE " + TodoDBHelper.TODO_KEY_COLUMN_INDEX + " = "+ id );
+                " WHERE " + TodoDBHelper.TODO_KEY + " = "+ id );
+
+
     }
 
 

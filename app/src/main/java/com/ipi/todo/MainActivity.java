@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity
     private String TAG = "monTag";
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -46,9 +47,17 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.recyclerview_main);
 
+        listeTodos = findViewById(R.id.tvListeTodos);
 
-
-
+        if (savedInstanceState!=null)
+        {
+            afficherListe();
+        }
+        else
+        {
+            TodoAsyncTasks todoAsyncTasks = new TodoAsyncTasks();
+            todoAsyncTasks.execute();
+        }
 
 
 
@@ -59,10 +68,10 @@ public class MainActivity extends AppCompatActivity
 //            todoList =(List<Todo>)bundle.getSerializable("LIST");
 //        }
 
-        listeTodos = findViewById(R.id.tvListeTodos);
-
-
-        afficherListe();
+//        listeTodos = findViewById(R.id.tvListeTodos);
+//
+//
+//        afficherListe();
 
     }
 
@@ -183,43 +192,56 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+//    public static void deleteTodo(Integer id)
+//    {
+//        delTodo(id);
+//    }
+//
+//    public  void delTodo(Integer id)
+//    {
+//        TodoDAO todoDAO = new TodoDAO(getApplicationContext());
+//        todoDAO.delete(id);
+//    }
 
 
-public class TodoAsyncTasks extends AsyncTask<String,String,List<Todo>>
-{
-    @Override
-    protected List<Todo> doInBackground(String... strings)
+
+
+    public class TodoAsyncTasks extends AsyncTask<String,String,List<Todo>>
     {
-        TodoDAO todoDAO = new TodoDAO(getApplicationContext());
-        List<Todo> responseTodo = new ArrayList<>();
-
-        try
+        @Override
+        protected List<Todo> doInBackground(String... strings)
         {
-            responseTodo = todoDAO.list();
+            TodoDAO todoDAO = new TodoDAO(getApplicationContext());
+            List<Todo> responseTodo = new ArrayList<>();
+
+            try
+            {
+                responseTodo = todoDAO.list();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+
+            return responseTodo;
         }
-        catch (Exception e)
+
+
+        @Override
+        protected void onPostExecute(List<Todo> responseTodo)
         {
-            e.printStackTrace();
+            StringBuilder sb = new StringBuilder();
+
+            for(Todo todo : responseTodo)
+            {
+                sb.append(todo.getName() + " // " + todo.getUrgency() + "\n");
+            }
+
+            //tvTodos.setText(sb.toString());
+            afficherListe();
         }
-
-
-        return responseTodo;
     }
-
-
-    @Override
-    protected void onPostExecute(List<Todo> responseTodo)
-    {
-        StringBuilder sb = new StringBuilder();
-
-        for(Todo todo : responseTodo)
-        {
-            sb.append(todo.getName() + " // " + todo.getUrgency() + "\n");
-        }
-
-        //tvTodos.setText(sb.toString());
-    }
-}
 
 
 }
